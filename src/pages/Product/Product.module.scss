@@ -1,0 +1,105 @@
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_mixins.scss" as m;
+
+.product {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  padding: v.$space_12 v.$container_pad;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space_10;
+}
+
+.loading,
+.notFound {
+  text-align: center;
+  color: p.$color_gray_600;
+  padding: v.$space_16 v.$container_pad;
+}
+
+.media {
+  background: p.$color_gray_050;
+  border: 1px solid p.$color_gray_200;
+  border-radius: v.$radius_lg;
+  overflow: hidden;
+}
+
+.media img {
+  @include m.mediaSquare;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space_4;
+}
+
+.type {
+  @include m.kickerText;
+}
+
+.name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.price {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: p.$color_navy;
+}
+
+.variants {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space_2;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: p.$color_gray_600;
+}
+
+.variants select {
+  height: 42px;
+  border: 1px solid p.$color_gray_300;
+  padding: 0 v.$space_3;
+  background: p.$color_white;
+  border-radius: v.$radius_sm;
+}
+
+.qtyRow {
+  display: grid;
+  grid-template-columns: 120px 140px 1fr;
+  gap: v.$space_3;
+}
+
+.qtyRow input {
+  height: 42px;
+  border: 1px solid p.$color_gray_300;
+  border-radius: v.$radius_sm;
+  text-align: center;
+}
+
+.stock {
+  color: p.$color_gray_600;
+}
+
+.add {
+  margin-top: v.$space_6;
+  width: 100%;
+  height: 46px;
+  @include m.buttonNavy;
+}
+
+.add:disabled {
+  opacity: 0.5;
+}
+
+@media (max-width: v.$bp_lg) {
+  .product {
+    grid-template-columns: 1fr;
+  }
+}

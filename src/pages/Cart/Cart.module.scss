@@ -1,0 +1,103 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+
+.cart {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: v.$space_4;
+  margin-bottom: v.$space_8;
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  margin: 0;
+}
+
+.clear {
+  @include m.buttonGhost;
+}
+
+.empty {
+  border: 1px solid p.$color_gray_200;
+  padding: 2.5rem;
+  text-align: center;
+  background: p.$color_white;
+  border-radius: v.$radius_lg;
+}
+
+.shopLink {
+  display: inline-flex;
+  margin-top: v.$space_4;
+  @include m.buttonNavy;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: v.$space_8;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space_4;
+}
+
+.summary {
+  border: 1px solid p.$color_gray_200;
+  background: p.$color_white;
+  padding: v.$space_5;
+  height: fit-content;
+  position: sticky;
+  top: 16px;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+.summary h2 {
+  font-size: 1.3rem;
+  margin: 0 0 v.$space_4 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: v.$space_3;
+}
+
+.note {
+  font-size: 0.95rem;
+  color: p.$color_gray_600;
+  margin: v.$space_4 0;
+}
+
+.checkout {
+  width: 100%;
+  @include m.buttonNavy;
+}
+
+.continue {
+  display: block;
+  text-align: center;
+  margin-top: v.$space_3;
+  color: p.$color_navy;
+  @include m.linkUnderlineOnHover;
+}
+
+@media (max-width: v.$bp_lg) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    position: static;
+  }
+}

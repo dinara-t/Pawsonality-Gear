@@ -1,0 +1,170 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+
+.item {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: v.$space_4;
+  border: 1px solid p.$color_gray_200;
+  background: p.$color_white;
+  padding: v.$space_4;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+.thumb {
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+  background: p.$color_gray_050;
+  border-radius: v.$radius_md;
+  border: 1px solid p.$color_gray_200;
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space_3;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  gap: v.$space_4;
+  align-items: flex-start;
+}
+
+.titleBlock {
+  min-width: 0;
+}
+
+.type {
+  @include m.kickerText;
+  font-size: 0.75rem;
+}
+
+.name {
+  display: inline-block;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: p.$color_gray_950;
+  text-decoration: none;
+  margin-top: 0.15rem;
+  word-break: break-word;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.variant {
+  margin-top: 0.25rem;
+  color: p.$color_gray_600;
+  font-size: 0.95rem;
+}
+
+.remove {
+  cursor: pointer;
+  color: p.$color_gray_600;
+  padding: 0.25rem 0;
+  @include m.focusRing;
+}
+
+.remove:hover {
+  color: p.$color_gray_950;
+}
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: end;
+  gap: v.$space_4;
+}
+
+.qty {
+  display: grid;
+  grid-template-columns: 36px 70px 36px;
+  align-items: center;
+}
+
+.qty button {
+  height: 36px;
+  border: 1px solid p.$color_gray_300;
+  background: p.$color_white;
+  cursor: pointer;
+  border-radius: v.$radius_sm;
+  @include m.focusRing;
+}
+
+.qty button:hover {
+  background: p.$color_gray_100;
+}
+
+.qty input {
+  height: 36px;
+  border: 1px solid p.$color_gray_300;
+  text-align: center;
+  width: 70px;
+  border-radius: v.$radius_sm;
+  background: p.$color_white;
+}
+
+.stock {
+  color: p.$color_gray_600;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.priceCol {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.unitPrice {
+  color: p.$color_gray_600;
+  font-size: 0.95rem;
+}
+
+.linePrice {
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: p.$color_navy;
+}
+
+@media (max-width: v.$bp_xs) {
+  .item {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .thumb {
+    width: 90px;
+    height: 90px;
+  }
+
+  .qty {
+    grid-template-columns: 34px 60px 34px;
+  }
+
+  .qty input {
+    width: 60px;
+  }
+
+  .bottomRow {
+    grid-template-columns: 1fr;
+    gap: v.$space_3;
+  }
+
+  .priceCol {
+    text-align: left;
+  }
+}

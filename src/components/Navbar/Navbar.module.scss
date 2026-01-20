@@ -1,0 +1,92 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+@use "../../styles/_typography.scss" as t;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: v.$z_nav;
+  background: p.$color_light_green;
+  border-bottom: 1px solid p.$color_gray_200;
+}
+
+.inner {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: v.$space_6;
+}
+
+.logo {
+  font-family: t.$font_family_heading;
+  font-size: 1.35rem;
+  font-weight: 400;
+  text-decoration: none;
+  color: p.$color_navy;
+}
+
+.nav {
+  display: flex;
+  gap: v.$space_5;
+}
+
+.nav a {
+  text-decoration: none;
+  color: p.$color_gray_700;
+  font-size: 0.95rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid transparent;
+  @include m.focusRing;
+}
+
+.nav a:hover {
+  color: p.$color_navy;
+}
+
+.active {
+  color: p.$color_navy;
+  border-bottom-color: p.$color_navy;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+.cart {
+  position: relative;
+  text-decoration: none;
+  color: p.$color_navy;
+  font-size: 0.95rem;
+  @include m.focusRing;
+}
+
+.cart:hover {
+  text-decoration: underline;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: p.$color_magenta;
+  color: p.$color_white;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: v.$radius_pill;
+  line-height: 1;
+}
+
+@media (max-width: v.$bp_sm) {
+  .inner {
+    grid-template-columns: 1fr auto;
+  }
+
+  .nav {
+    display: none;
+  }
+}

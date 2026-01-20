@@ -1,0 +1,120 @@
+@use "./_variables.scss" as v;
+@use "./_typography.scss" as t;
+@use "./_palette.scss" as p;
+
+@mixin container {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  padding: 0 v.$container_pad;
+  width: 100%;
+}
+
+@mixin containerNarrow {
+  max-width: v.$container_max_narrow;
+  margin: 0 auto;
+  padding: 0 v.$container_pad;
+  width: 100%;
+}
+
+@mixin card {
+  background: p.$color_white;
+  border: 1px solid p.$color_gray_200;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+@mixin focusRing {
+  &:focus-visible {
+    outline: 2px solid p.$color_magenta;
+    outline-offset: 2px;
+  }
+}
+
+@mixin buttonBase {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: v.$radius_md;
+  border: 1px solid transparent;
+  padding: 0.75rem 1.2rem;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1;
+  @include focusRing;
+}
+
+@mixin buttonNavy {
+  @include buttonBase;
+  background: p.$color_navy;
+  border-color: p.$color_navy;
+  color: p.$color_white;
+
+  &:hover {
+    opacity: 0.92;
+  }
+}
+
+@mixin buttonOutlineNavy {
+  @include buttonBase;
+  background: p.$color_white;
+  border-color: p.$color_navy;
+  color: p.$color_navy;
+
+  &:hover {
+    background: p.$color_gray_100;
+  }
+}
+
+@mixin buttonGhost {
+  @include buttonBase;
+  background: p.$color_white;
+  border-color: p.$color_gray_300;
+  color: p.$color_gray_700;
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    background: p.$color_gray_100;
+    color: p.$color_gray_950;
+  }
+}
+
+@mixin kickerText {
+  @include t.kicker;
+  color: p.$color_gray_600;
+}
+
+@mixin linkUnderlineOnHover {
+  border-bottom: 1px solid transparent;
+  text-decoration: none;
+
+  &:hover {
+    border-bottom-color: currentColor;
+  }
+}
+
+@mixin mediaSquare {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+@mixin gridResponsive($cols_desktop, $cols_tablet, $cols_mobile) {
+  display: grid;
+  grid-template-columns: repeat($cols_desktop, minmax(0, 1fr));
+  gap: 1.25rem;
+
+  @media (max-width: v.$bp_xl) {
+    grid-template-columns: repeat($cols_tablet, minmax(0, 1fr));
+  }
+
+  @media (max-width: v.$bp_md) {
+    grid-template-columns: repeat($cols_mobile, minmax(0, 1fr));
+  }
+
+  @media (max-width: v.$bp_xs) {
+    grid-template-columns: 1fr;
+  }
+}

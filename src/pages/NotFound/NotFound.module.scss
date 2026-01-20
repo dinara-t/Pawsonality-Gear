@@ -1,0 +1,56 @@
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_mixins.scss" as m;
+
+.notFound {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: v.$space_12 v.$container_pad;
+}
+
+.inner {
+  text-align: center;
+  max-width: 520px;
+}
+
+.code {
+  font-size: 6rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: p.$color_navy;
+}
+
+.title {
+  font-size: 2rem;
+  margin-top: v.$space_2;
+}
+
+.text {
+  margin-top: v.$space_3;
+  color: p.$color_gray_600;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: v.$space_4;
+  margin-top: v.$space_8;
+  flex-wrap: wrap;
+}
+
+.primary {
+  @include m.buttonNavy;
+}
+
+.secondary {
+  @include m.buttonOutlineNavy;
+}
+
+@media (max-width: v.$bp_xs) {
+  .code {
+    font-size: 4.5rem;
+  }
+}

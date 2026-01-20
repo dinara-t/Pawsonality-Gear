@@ -1,0 +1,125 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+
+.carousel {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  gap: v.$space_3;
+  align-items: center;
+}
+
+.arrow {
+  height: 44px;
+  width: 44px;
+  border: 1px solid p.$color_navy;
+  background: p.$color_white;
+  cursor: pointer;
+  font-size: 1.7rem;
+  line-height: 2rem;
+  border-radius: v.$radius_md;
+  @include m.focusRing;
+}
+
+.arrow:hover {
+  background: p.$color_gray_100;
+}
+
+.slide {
+  display: flex;
+  flex-direction: column;
+  gap: v.$space_3;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: v.$space_5;
+  border: 1px solid p.$color_gray_200;
+  background: p.$color_white;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+.imageWrap {
+  background: p.$color_gray_050;
+  border-right: 1px solid p.$color_gray_200;
+}
+
+.imageWrap img {
+  @include m.mediaSquare;
+}
+
+.info {
+  padding: 1.1rem 1.1rem 1.1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.type {
+  @include m.kickerText;
+  font-size: 0.8rem;
+}
+
+.name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  word-break: break-word;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: 900;
+  margin-top: 0.2rem;
+  color: p.$color_navy;
+}
+
+.dots {
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.25rem;
+}
+
+.dot,
+.dotActive {
+  width: 10px;
+  height: 10px;
+  border-radius: v.$radius_pill;
+  border: 1px solid p.$color_navy;
+  background: p.$color_white;
+  cursor: pointer;
+  @include m.focusRing;
+}
+
+.dotActive {
+  background: p.$color_navy;
+}
+
+@media (max-width: v.$bp_sm) {
+  .slide {
+    max-width: 640px;
+  }
+
+  .card {
+    grid-template-columns: 1fr;
+  }
+
+  .imageWrap {
+    border-right: none;
+    border-bottom: 1px solid p.$color_gray_200;
+  }
+
+  .info {
+    padding: 1rem;
+  }
+}

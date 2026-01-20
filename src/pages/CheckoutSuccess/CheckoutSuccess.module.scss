@@ -1,0 +1,60 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  border: 1px solid p.$color_gray_200;
+  background: p.$color_white;
+  padding: 2rem;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+.card h1 {
+  font-size: 2rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.card p {
+  color: p.$color_gray_700;
+  line-height: 1.5;
+  margin: 0.5rem 0;
+}
+
+.actions {
+  display: flex;
+  gap: v.$space_4;
+  margin-top: v.$space_6;
+  flex-wrap: wrap;
+}
+
+.primary {
+  @include m.buttonNavy;
+}
+
+.secondary {
+  @include m.buttonOutlineNavy;
+}
+
+.error {
+  color: p.$color_red_700;
+  border: 1px solid p.$color_red_200;
+  background: p.$color_red_050;
+  padding: 0.9rem 1rem;
+  border-radius: v.$radius_lg;
+}
+
+.small {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: p.$color_gray_600;
+}

@@ -1,0 +1,56 @@
+@use "./styles/_palette.scss" as p;
+@use "./styles/_typography.scss" as t;
+@use "./styles/_mixins.scss" as m;
+
+:root {
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  @include t.body;
+  color: p.$color_gray_950;
+  background: rgba(p.$color_teal, 0.1);
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+button {
+  border: none;
+  background: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid p.$color_magenta;
+  outline-offset: 2px;
+}

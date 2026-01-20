@@ -1,0 +1,93 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+@use "../../styles/_typography.scss" as t;
+
+.about {
+  width: 100%;
+}
+
+.hero {
+  border-bottom: 1px solid p.$color_gray_200;
+  padding: 3rem 1.5rem;
+  background: rgba(p.$color_teal, 0.12);
+}
+
+.heroInner {
+  max-width: v.$container_max_narrow;
+  margin: 0 auto;
+}
+
+.kicker {
+  @include m.kickerText;
+}
+
+.title {
+  font-size: 2.6rem;
+  line-height: 1.1;
+  margin: 0.5rem 0 0.75rem 0;
+}
+
+.subtitle {
+  margin: 0;
+  color: p.$color_gray_700;
+  line-height: t.$line_relaxed;
+  font-size: 1.1rem;
+  max-width: 70ch;
+}
+
+.actions {
+  display: flex;
+  gap: v.$space_4;
+  flex-wrap: wrap;
+  margin-top: v.$space_6;
+}
+
+.primary {
+  @include m.buttonNavy;
+}
+
+.secondary {
+  @include m.buttonOutlineNavy;
+}
+
+.content {
+  padding: 2.5rem 1.5rem;
+}
+
+.grid {
+  max-width: v.$container_max_narrow;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space_6;
+}
+
+.block {
+  border: 1px solid p.$color_gray_200;
+  background: p.$color_white;
+  padding: v.$space_5;
+  border-radius: v.$radius_lg;
+  box-shadow: v.$shadow_sm;
+}
+
+.block h2 {
+  margin: 0 0 0.6rem 0;
+  font-size: 1.25rem;
+}
+
+.block p {
+  margin: 0;
+  color: p.$color_gray_700;
+  line-height: t.$line_relaxed;
+}
+
+@media (max-width: v.$bp_md) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+}

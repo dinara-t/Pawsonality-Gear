@@ -1,0 +1,152 @@
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_mixins.scss" as m;
+
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  padding: v.$space_12 v.$container_pad;
+  border-bottom: 1px solid p.$color_gray_200;
+  background: linear-gradient(180deg, p.$color_gray_050 0%, p.$color_white 70%);
+}
+
+.heroInner {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: v.$space_8;
+}
+
+.kicker {
+  @include m.kickerText;
+}
+
+.title {
+  font-size: 3rem;
+  line-height: 1.05;
+  margin: v.$space_2 0 v.$space_3;
+}
+
+.subtitle {
+  max-width: 62ch;
+  color: p.$color_gray_600;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.heroActions {
+  display: flex;
+  gap: v.$space_3;
+  margin-top: v.$space_6;
+  flex-wrap: wrap;
+}
+
+.primary {
+  @include m.buttonNavy;
+}
+
+.secondary {
+  @include m.buttonOutlineNavy;
+}
+
+.points {
+  margin-top: v.$space_8;
+  display: grid;
+  gap: v.$space_3;
+}
+
+.point {
+  border-left: 4px solid p.$color_light_green;
+  padding-left: v.$space_3;
+}
+
+.pointTitle {
+  font-weight: 800;
+}
+
+.pointText {
+  color: p.$color_gray_600;
+  line-height: 1.4;
+}
+
+.heroCard {
+  @include m.card;
+  padding: v.$space_4;
+  max-width: 520px;
+  justify-self: end;
+}
+
+.heroCardTop {
+  font-weight: 800;
+  text-align: center;
+}
+
+.loadingBox {
+  background: p.$color_gray_050;
+  border: 1px solid p.$color_gray_200;
+  padding: v.$space_8;
+  text-align: center;
+  color: p.$color_gray_600;
+  border-radius: v.$radius_lg;
+}
+
+.cardLink {
+  color: p.$color_navy;
+  @include m.linkUnderlineOnHover;
+}
+
+.section {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  padding: v.$space_10 v.$container_pad;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: v.$space_5;
+}
+
+.sectionLink {
+  color: p.$color_navy;
+  @include m.linkUnderlineOnHover;
+}
+
+.info {
+  border-top: 1px solid p.$color_gray_200;
+  background: p.$color_gray_050;
+  padding: v.$space_10 v.$container_pad;
+}
+
+.infoInner {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: v.$space_8;
+}
+
+.infoBlock {
+  @include m.card;
+  padding: v.$space_5;
+}
+
+.infoBlock p {
+  color: p.$color_gray_600;
+  line-height: 1.6;
+}
+
+@media (max-width: v.$bp_lg) {
+  .heroInner {
+    grid-template-columns: 1fr;
+  }
+
+  .infoInner {
+    grid-template-columns: 1fr;
+  }
+}

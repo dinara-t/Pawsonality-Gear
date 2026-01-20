@@ -1,0 +1,62 @@
+$font_family_body:
+  "Sour Gummy",
+  system-ui,
+  -apple-system,
+  Segoe UI,
+  Roboto,
+  Helvetica,
+  Arial,
+  sans-serif;
+$font_family_heading:
+  "Bonbon",
+  "Sour Gummy",
+  system-ui,
+  -apple-system,
+  Segoe UI,
+  Roboto,
+  Helvetica,
+  Arial,
+  sans-serif;
+
+$font_size_12: 0.75rem;
+$font_size_13: 0.8125rem;
+$font_size_14: 0.875rem;
+$font_size_15: 0.9375rem;
+$font_size_16: 1rem;
+$font_size_18: 1.125rem;
+$font_size_20: 1.25rem;
+$font_size_24: 1.5rem;
+$font_size_32: 2rem;
+$font_size_40: 2.5rem;
+$font_size_48: 3rem;
+
+$line_tight: 1.15;
+$line_snug: 1.35;
+$line_normal: 1.55;
+$line_relaxed: 1.7;
+
+$weight_regular: 400;
+$weight_medium: 500;
+$weight_semibold: 600;
+$weight_bold: 700;
+$weight_extrabold: 800;
+
+@mixin body {
+  font-family: $font_family_body;
+  font-size: $font_size_16;
+  line-height: $line_normal;
+  font-weight: $weight_regular;
+}
+
+@mixin heading {
+  font-family: $font_family_heading;
+  font-weight: $weight_regular;
+  letter-spacing: 0.01em;
+}
+
+@mixin kicker {
+  font-family: $font_family_body;
+  font-size: $font_size_13;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

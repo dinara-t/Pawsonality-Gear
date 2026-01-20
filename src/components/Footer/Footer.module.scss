@@ -1,0 +1,63 @@
+@use "../../styles/_palette.scss" as p;
+@use "../../styles/_variables.scss" as v;
+@use "../../styles/_mixins.scss" as m;
+
+.footer {
+  border-top: 1px solid p.$color_gray_200;
+  padding: 2rem 1.5rem;
+  background: p.$color_white;
+}
+
+.inner {
+  max-width: v.$container_max;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: v.$space_6;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.name {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: p.$color_gray_950;
+}
+
+.tagline {
+  color: p.$color_gray_600;
+}
+
+.links {
+  display: flex;
+  gap: v.$space_4;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.links a {
+  color: p.$color_navy;
+  @include m.linkUnderlineOnHover;
+}
+
+.meta {
+  grid-column: 1 / -1;
+  color: p.$color_gray_600;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: v.$bp_sm) {
+  .inner {
+    grid-template-columns: 1fr;
+  }
+
+  .links {
+    justify-content: flex-start;
+  }
+}
