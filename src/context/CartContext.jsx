@@ -65,11 +65,13 @@ function toCartLine(product, variantId, qty) {
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [cartReady, setCartReady] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem(STORAGE_KEY);
     const loaded = safeJsonParse(raw, []);
     if (Array.isArray(loaded)) setCartItems(loaded);
+    setCartReady(true);
   }, []);
 
   useEffect(() => {
@@ -124,7 +126,7 @@ export function CartProvider({ children }) {
 
     const count = cartItems.reduce(
       (sum, item) => sum + Number(item?.qty ?? 0),
-      0
+      0,
     );
 
     return { subtotal, count };
@@ -132,6 +134,7 @@ export function CartProvider({ children }) {
 
   const value = useMemo(() => {
     return {
+      cartReady,
       cartItems,
       addToCart,
       updateQty,

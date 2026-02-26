@@ -60,7 +60,7 @@ async function commitStockReduction(cartItems) {
           throw new Error(`Invalid stock value: ${s.productId} / ${variantId}`);
         if (current < reduceQty) {
           throw new Error(
-            `Not enough stock for ${variants[idx]?.label || variantId}. Available: ${current}, requested: ${reduceQty}`
+            `Not enough stock for ${variants[idx]?.label || variantId}. Available: ${current}, requested: ${reduceQty}`,
           );
         }
       }
@@ -68,7 +68,7 @@ async function commitStockReduction(cartItems) {
       const nextVariants = variants.map((v) => ({ ...v }));
       for (const [variantId, reduceQty] of reduceMap.entries()) {
         const i = nextVariants.findIndex(
-          (v) => String(v?.id || "") === variantId
+          (v) => String(v?.id || "") === variantId,
         );
         const current = Number(nextVariants[i]?.quantity ?? 0);
         nextVariants[i].quantity = current - reduceQty;
@@ -80,7 +80,7 @@ async function commitStockReduction(cartItems) {
 }
 
 export default function CheckoutSuccess() {
-  const { cartItems, clearCart } = useCart();
+  const { cartReady, cartItems, clearCart } = useCart();
   const [searchParams] = useSearchParams();
 
   const sessionId = searchParams.get("session_id") || "";
@@ -98,6 +98,11 @@ export default function CheckoutSuccess() {
     async function run() {
       if (!alive) return;
 
+      if (!cartReady) {
+        setStatus("processing");
+        return;
+      }
+
       if (!sessionId) {
         setStatus("error");
         setError("Missing Stripe session id.");
@@ -111,7 +116,6 @@ export default function CheckoutSuccess() {
 
       if (!cartItems.length) {
         setStatus("done");
-        if (processedKey) sessionStorage.setItem(processedKey, "1");
         return;
       }
 
@@ -136,7 +140,7 @@ export default function CheckoutSuccess() {
     return () => {
       alive = false;
     };
-  }, [cartItems, clearCart, processedKey, sessionId]);
+  }, [cartItems, clearCart, processedKey, sessionId, cartReady]);
 
   return (
     <div className={styles.wrap}>
