@@ -9,14 +9,27 @@ const PORT = Number(process.env.PORT || 4242);
 
 const secretKey = process.env.STRIPE_SECRET_KEY;
 if (!secretKey) {
+  console.error("Missing STRIPE_SECRET_KEY. Set it in Render env vars.");
+  process.exit(1);
+}
+
+const clientOrigin = process.env.CLIENT_ORIGIN;
+if (!clientOrigin) {
   console.error(
-    "Missing STRIPE_SECRET_KEY. Create src/server/.env with STRIPE_SECRET_KEY=sk_test_..."
+    "Missing CLIENT_ORIGIN. Set it to https://dinara-t.github.io in Render env vars.",
   );
   process.exit(1);
 }
 
 const app = express();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: clientOrigin,
+    methods: ["GET", "POST"],
+  }),
+);
+
 app.use(express.json());
 
 const stripe = new Stripe(secretKey);
@@ -55,7 +68,7 @@ app.post("/create-checkout-session", async (req, res) => {
     });
 
     const baseUrl = String(
-      process.env.APP_BASE_URL || "http://localhost:5173"
+      process.env.APP_BASE_URL || "http://localhost:5173",
     ).replace(/\/$/, "");
 
     const session = await stripe.checkout.sessions.create({
@@ -67,12 +80,10 @@ app.post("/create-checkout-session", async (req, res) => {
     });
 
     if (!session?.url) {
-      return res
-        .status(500)
-        .json({
-          error:
-            "Stripe session URL missing. Ensure Stripe Checkout Session returns a URL.",
-        });
+      return res.status(500).json({
+        error:
+          "Stripe session URL missing. Ensure Stripe Checkout Session returns a URL.",
+      });
     }
 
     return res.json({ id: session.id, url: session.url });
@@ -83,5 +94,5 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Stripe server running on http://localhost:${PORT}`);
+  console.log(`Stripe server running on port ${PORT}`);
 });
