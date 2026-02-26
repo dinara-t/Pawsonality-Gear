@@ -1,45 +1,38 @@
 import { Link } from "react-router-dom";
 import styles from "./CartItem.module.scss";
 import { useCart } from "../../context/CartContext";
+import fallbackImage from "../../assets/images/fallback-product.jpg";
 
 function money(n) {
-  const v = Number(n ?? 0);
-  return `$${v.toFixed(2)}`;
+  return new Intl.NumberFormat("en-AU", {
+    style: "currency",
+    currency: "AUD",
+  }).format(Number(n ?? 0));
 }
 
-function getVariantInfo(item) {
-  const variants = item?.variants || item?.product?.variants || [];
-  const variantId =
-    item?.variantId || item?.selectedVariantId || item?.variant?.id || "";
-  const variant =
-    variants.find((v) => v.id === variantId) || variants[0] || null;
-  const label =
-    item?.variantLabel ||
-    item?.variant?.label ||
-    variant?.label ||
-    variantId ||
-    "";
-  const stock = Number(item?.variantStock ?? variant?.quantity ?? 0);
-  return { variantId, label, stock };
+function clampQty(value, max) {
+  const v = Number(value);
+  const safe = Number.isFinite(v) ? v : 1;
+  return Math.max(1, Math.min(safe, max));
 }
 
 export default function CartItem({ item }) {
-  const cart = useCart() || {};
-  const updateQty =
-    cart.updateQty || cart.setQty || cart.updateItemQty || (() => {});
-  const removeItem = cart.removeItem || cart.remove || (() => {});
+  const { updateQty, removeItem } = useCart() || {};
 
-  const id = item?.id || "";
-  const productId = item?.productId || item?.product?.id || "";
-  const name = item?.name || item?.product?.name || "";
-  const imageUrl = item?.imageUrl || item?.product?.imageUrl || "";
-  const type = item?.type || item?.product?.type || "";
-  const price = Number(item?.price ?? item?.product?.price ?? 0);
-  const qty = Number(item?.qty ?? item?.quantity ?? 1);
+  if (!item) return null;
 
-  const { variantId, label, stock } = getVariantInfo(item);
+  const id = item.id;
+  const productId = item.productId;
+  const name = item.name;
+  const imageUrl = item.imageUrl;
+  const type = item.type;
+  const price = Number(item.price ?? 0);
+  const qty = Number(item.qty ?? 1);
+
+  const variantText = item.variantLabel || item.variantId || "";
+  const stock = Number(item.variantStock ?? 0);
   const maxQty = stock > 0 ? stock : qty;
-  const safeQty = Math.max(1, Math.min(qty, maxQty));
+  const safeQty = clampQty(qty, maxQty);
 
   return (
     <div className={styles.item}>
@@ -47,7 +40,15 @@ export default function CartItem({ item }) {
         to={productId ? `/product/${productId}` : "/shop"}
         className={styles.thumb}
       >
-        <img src={imageUrl} alt={name} />
+        <img
+          src={imageUrl || fallbackImage}
+          alt={name}
+          loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = fallbackImage;
+          }}
+        />
       </Link>
 
       <div className={styles.info}>
@@ -60,13 +61,15 @@ export default function CartItem({ item }) {
             >
               {name}
             </Link>
-            <div className={styles.variant}>{label || variantId}</div>
+            {variantText ? (
+              <div className={styles.variant}>{variantText}</div>
+            ) : null}
           </div>
 
           <button
             className={styles.remove}
             type="button"
-            onClick={() => removeItem(id)}
+            onClick={() => removeItem?.(id)}
           >
             Remove
           </button>
@@ -76,26 +79,27 @@ export default function CartItem({ item }) {
           <div className={styles.qty}>
             <button
               type="button"
-              onClick={() => updateQty(id, Math.max(1, safeQty - 1))}
+              onClick={() => updateQty?.(id, clampQty(safeQty - 1, maxQty))}
               aria-label="Decrease quantity"
             >
               −
             </button>
+
             <input
               type="number"
               min="1"
               max={maxQty || 1}
               value={safeQty}
-              onChange={(e) => {
-                const v = Number(e.target.value || 1);
-                const next = Math.max(1, Math.min(v, maxQty || 1));
-                updateQty(id, next);
-              }}
+              onChange={(e) =>
+                updateQty?.(id, clampQty(e.target.value || 1, maxQty || 1))
+              }
+              disabled={!updateQty}
             />
+
             <button
               type="button"
               onClick={() =>
-                updateQty(id, Math.min(safeQty + 1, maxQty || safeQty + 1))
+                updateQty?.(id, clampQty(safeQty + 1, maxQty || safeQty + 1))
               }
               aria-label="Increase quantity"
             >

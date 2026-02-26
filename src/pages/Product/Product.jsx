@@ -1,8 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./Product.module.scss";
 import { fetchProductById } from "../../services/products";
 import { useCart } from "../../context/CartContext";
+
+function clampQty(value, max) {
+  const n = Number(value);
+  const safe = Number.isFinite(n) ? n : 1;
+  return Math.max(1, Math.min(safe, max));
+}
 
 export default function Product() {
   const { id } = useParams();
@@ -19,18 +25,31 @@ export default function Product() {
 
     async function run() {
       setLoading(true);
+      try {
+        if (!id) {
+          if (!alive) return;
+          setProduct(null);
+          setSelectedVariantId("");
+          setQty(1);
+          return;
+        }
 
-      const data = await fetchProductById(id);
+        const data = await fetchProductById(id);
+        if (!alive) return;
 
-      if (!alive) return;
+        setProduct(data || null);
 
-      setProduct(data);
-
-      const firstVariant = data?.variants?.[0]?.id || "";
-      setSelectedVariantId(firstVariant);
-      setQty(1);
-
-      setLoading(false);
+        const firstVariantId = data?.variants?.[0]?.id || "";
+        setSelectedVariantId(firstVariantId);
+        setQty(1);
+      } catch {
+        if (!alive) return;
+        setProduct(null);
+        setSelectedVariantId("");
+        setQty(1);
+      } finally {
+        if (alive) setLoading(false);
+      }
     }
 
     run();
@@ -40,22 +59,16 @@ export default function Product() {
     };
   }, [id]);
 
-  const selectedVariant = useMemo(() => {
-    if (!product?.variants?.length) return null;
-    if (!selectedVariantId) return product.variants[0];
-    return (
-      product.variants.find((v) => v.id === selectedVariantId) ||
-      product.variants[0]
-    );
-  }, [product, selectedVariantId]);
+  const variants = product?.variants || [];
+  const selectedVariant =
+    variants.find((v) => v.id === selectedVariantId) || variants[0] || null;
 
   const stock = Number(selectedVariant?.quantity ?? 0);
+  const maxQty = stock > 0 ? stock : 1;
 
   useEffect(() => {
-    if (!selectedVariant) return;
-    const max = stock > 0 ? stock : 1;
-    setQty((prev) => Math.max(1, Math.min(Number(prev || 1), max)));
-  }, [selectedVariantId, stock, selectedVariant]);
+    setQty((prev) => clampQty(prev, maxQty));
+  }, [maxQty]);
 
   const canAdd =
     Boolean(product?.id) &&
@@ -65,7 +78,6 @@ export default function Product() {
 
   function handleAddToCart() {
     if (!canAdd) return;
-
     if (!cart?.addToCart) return;
 
     cart.addToCart(product, selectedVariant.id, qty);
@@ -94,23 +106,22 @@ export default function Product() {
         <h1 className={styles.name}>{product.name}</h1>
         <div className={styles.price}>${product.price}</div>
 
-        {product.variants?.length ? (
+        {variants.length ? (
           <div className={styles.variants}>
             <div className={styles.label}>Variant</div>
             <select
               value={selectedVariant?.id || ""}
               onChange={(e) => setSelectedVariantId(e.target.value)}
             >
-              {product.variants.map((v) => (
-                <option
-                  key={v.id}
-                  value={v.id}
-                  disabled={Number(v.quantity ?? 0) <= 0}
-                >
-                  {v.label}{" "}
-                  {Number(v.quantity ?? 0) <= 0 ? "(Out of stock)" : ""}
-                </option>
-              ))}
+              {variants.map((v) => {
+                const vStock = Number(v.quantity ?? 0);
+                const out = vStock <= 0;
+                return (
+                  <option key={v.id} value={v.id} disabled={out}>
+                    {v.label} {out ? "(Out of stock)" : ""}
+                  </option>
+                );
+              })}
             </select>
           </div>
         ) : null}
@@ -120,13 +131,9 @@ export default function Product() {
           <input
             type="number"
             min="1"
-            max={stock > 0 ? stock : 1}
+            max={maxQty}
             value={qty}
-            onChange={(e) => {
-              const v = Number(e.target.value || 1);
-              const max = stock > 0 ? stock : 1;
-              setQty(Math.max(1, Math.min(v, max)));
-            }}
+            onChange={(e) => setQty(clampQty(e.target.value || 1, maxQty))}
             disabled={stock <= 0}
           />
           <div className={styles.stock}>

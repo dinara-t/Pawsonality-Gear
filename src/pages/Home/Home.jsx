@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Home.module.scss";
 import FeaturedCarousel from "../../components/FeaturedCarousel/FeaturedCarousel";
@@ -8,9 +8,22 @@ import {
   fetchAllProducts,
 } from "../../services/products";
 
+function pickRandom(items, count) {
+  if (!Array.isArray(items)) return [];
+  if (items.length <= count) return items;
+
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, count);
+}
+
 export default function Home() {
   const [featured, setFeatured] = useState([]);
   const [all, setAll] = useState([]);
+  const [picks, setPicks] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,14 +31,22 @@ export default function Home() {
 
     async function run() {
       setLoading(true);
-      const [f, a] = await Promise.all([
-        fetchFeaturedProducts(),
-        fetchAllProducts(),
-      ]);
-      if (!alive) return;
-      setFeatured(Array.isArray(f) ? f : []);
-      setAll(Array.isArray(a) ? a : []);
-      setLoading(false);
+      try {
+        const [f, a] = await Promise.all([
+          fetchFeaturedProducts(),
+          fetchAllProducts(),
+        ]);
+        if (!alive) return;
+
+        const safeFeatured = Array.isArray(f) ? f : [];
+        const safeAll = Array.isArray(a) ? a : [];
+
+        setFeatured(safeFeatured);
+        setAll(safeAll);
+        setPicks(pickRandom(safeAll, 6));
+      } finally {
+        if (alive) setLoading(false);
+      }
     }
 
     run();
@@ -34,18 +55,6 @@ export default function Home() {
       alive = false;
     };
   }, []);
-
-  const picks = useMemo(() => {
-    if (all.length <= 6) return all;
-
-    const arr = [...all];
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-
-    return arr.slice(0, 6);
-  }, [all]);
 
   return (
     <div className={styles.home}>
