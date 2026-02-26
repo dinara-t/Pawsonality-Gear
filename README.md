@@ -70,16 +70,14 @@ pawsonality-gear/
 
 ## Routing
 
-Route Responsibility
-/ Home page with featured and random products
-/shop Product listing with filtering
-/product/:id Product detail and variant selection
-/cart Cart management
-/checkout Customer information and Stripe session creation
-/checkout-success Post-payment stock update
-/about Static informational page
-
--                 Fallback page
+- / Home - page with featured and random products
+- /shop - Product listing with filtering
+- /product/:id - Product detail and variant selection
+- /cart - Cart management
+- /checkout - Customer information and Stripe session creation
+- /checkout-success - Post-payment stock update
+- /about Static - informational page
+- "\*" Fallback page
 
 Each page has a single responsibility, keeping logic modular and maintainable.
 
