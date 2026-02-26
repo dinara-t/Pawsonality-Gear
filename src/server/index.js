@@ -75,8 +75,8 @@ app.post("/create-checkout-session", async (req, res) => {
       mode: "payment",
       line_items,
       customer_email: String(customer?.email || "").trim() || undefined,
-      success_url: `${baseUrl}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/cart`,
+      success_url: `${baseUrl}/#/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/#/cart`,
     });
 
     if (!session?.url) {
