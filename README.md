@@ -76,7 +76,7 @@ pawsonality-gear/
 - /cart - Cart management
 - /checkout - Customer information and Stripe session creation
 - /checkout-success - Post-payment stock update
-- /about Static - informational page
+- /about - Static informational page
 - "\*" Fallback page
 
 Each page has a single responsibility, keeping logic modular and maintainable.
