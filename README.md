@@ -1,5 +1,9 @@
 # Pawsonality Gear
 
+## Live Demo
+
+https://dinara-t.github.io/Pawsonality-Gear/
+
 ## React + Firebase + Stripe (Test Mode)
 
 Pawsonality Gear is e-commerce study project built to simulate a real-world online pet accessories store. The application demonstrates modern frontend architecture with React, cloud database integration using Firebase Firestore, and secure payment processing via Stripe Checkout through an Express backend.
